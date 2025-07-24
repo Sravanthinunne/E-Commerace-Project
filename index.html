@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WOW E-Commerce Storefront</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(120deg, #f6d365, #fda085);
+      padding: 40px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 30px;
+      color: #fff;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      font-size: 1.2em;
+      color: #fff;
+    }
+
+    .card p {
+      color: #f0f0f0;
+      margin: 10px 0;
+    }
+
+    .card button {
+      background: #fff;
+      color: #f78b00;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .card button:hover {
+      background: #f78b00;
+      color: #fff;
+    }
+
+    .cart {
+      position: fixed;
+      top: 40px;
+      right: 40px;
+      background: #fff;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .cart h2 {
+      margin-bottom: 10px;
+      font-size: 1.5em;
+      color: #333;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+    }
+
+    .checkout-btn {
+      margin-top: 15px;
+      width: 100%;
+      background: #f78b00;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background: #d66a00;
+    }
+
+    @media (max-width: 600px) {
+      .cart {
+        width: 90%;
+        right: 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>WOW Shop</h1>
+
+<div class="container" id="product-list">
+  <div class="card">
+    <img src="https://picsum.photos/300?1" alt="Item 1">
+    <h3>Stylish Sneakers</h3>
+    <p>$49.99</p>
+    <button onclick="addToCart('Stylish Sneakers', 49.99)">Add to Cart</button>
+  </div>
+
+  <div class="card">
+    <img src="https://picsum.photos/300?2" alt="Item 2">
+    <h3>Modern Watch</h3>
+    <p>$79.99</p>
+    <button onclick="addToCart('Modern Watch', 79.99)">Add to Cart</button>
+  </div>
+
+  <div class="card">
+    <img src="https://picsum.photos/300?3" alt="Item 3">
+    <h3>Trendy Backpack</h3>
+    <p>$59.99</p>
+    <button onclick="addToCart('Trendy Backpack', 59.99)">Add to Cart</button>
+  </div>
+
+  <div class="card">
+    <img src="https://picsum.photos/300?4" alt="Item 4">
+    <h3>Wireless Headphones</h3>
+    <p>$89.99</p>
+    <button onclick="addToCart('Wireless Headphones', 89.99)">Add to Cart</button>
+  </div>
+</div>
+
+<div class="cart" id="cart">
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <button class="checkout-btn" onclick="checkout()">Checkout</button>
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price) {
+    const item = { name, price };
+    cart.push(item);
+    renderCart();
+  }
+
+  function renderCart() {
+    const cartEl = document.getElementById('cart-items');
+    cartEl.innerHTML = '';
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price;
+      const div = document.createElement('div');
+      div.classList.add('cart-item');
+      div.innerHTML = `${item.name} - $${item.price.toFixed(2)} 
+      <span onclick="removeItem(${index})" style="cursor:pointer;color:red;">×</span>`;
+      cartEl.appendChild(div);
+    });
+
+    const totalEl = document.createElement('div');
+    totalEl.classList.add('cart-item');
+    totalEl.innerHTML = `<strong>Total:</strong> $${total.toFixed(2)}`;
+    cartEl.appendChild(totalEl);
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    renderCart();
+  }
+
+  function checkout() {
+    alert('Checkout successful!\nItems: ' + cart.length);
+    cart = [];
+    renderCart();
+  }
+</script>
+
+</body>
+</html>
